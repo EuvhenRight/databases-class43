@@ -1,23 +1,23 @@
-const db = require('./connection.js');
+const connectionDb = require('./connection.js');
 
 //create a database
 
-    db.query('DROP DATABASE IF EXISTS meetup',(err) => {
+    connectionDb.query('DROP DATABASE IF EXISTS meetup',(err) => {
         if (err) throw err
         console.log('Database dropped');
     });
 
 const createSqlDb = `CREATE DATABASE IF NOT EXISTS meetup`;
-    db.query(createSqlDb, (err) => {
+    connectionDb.query(createSqlDb, (err) => {
         if(err) throw err 
             console.log('Database created')
     });
 
 // Select the database
 
-    db.query('USE meetup', (err) => {
+    connectionDb.query('USE meetup', (err) => {
     if(err) throw err 
-            console.log('Database selected.');
+            console.log('Database selected');
     });
 
 // Create table Invitee
@@ -29,7 +29,7 @@ const inviteeTableQuery = `
     )
     `;
 
-    db.query(inviteeTableQuery, (err) => {
+    connectionDb.query(inviteeTableQuery, (err) => {
         if(err) throw err 
             console.log('Invitee Table created');
     });
@@ -43,7 +43,7 @@ const roomTableQuery = `
     )
     `;
 
-    db.query(roomTableQuery, (err) => {
+    connectionDb.query(roomTableQuery, (err) => {
     if(err) throw err
         console.log('Room Table created');
         });
@@ -60,7 +60,7 @@ const meetingTableQuery = `
     )
     `;
 
-    db.query(meetingTableQuery, (err) => {
+    connectionDb.query(meetingTableQuery, (err) => {
     if(err) throw err
         console.log('Meeting Table created');
         });    
@@ -75,7 +75,7 @@ const insertValuesInvitee = `INSERT INTO Invitee (invitee_name, invitee_by)
     ('PERSON_4', 'COMPANY_4'), 
     ('PERSON_5', 'COMPANY_5')`;
 
-    db.query(insertValuesInvitee, (err) => {
+    connectionDb.query(insertValuesInvitee, (err) => {
         if(err) throw err 
             console.log('Invitee values added');
         });
@@ -90,7 +90,7 @@ const insertValuesRoom = `INSERT INTO Room (room_name, floor_number)
     ('ROOM_4', 4), 
     ('ROOM_5', 5)`;
 
-    db.query(insertValuesRoom, (err) => {
+    connectionDb.query(insertValuesRoom, (err) => {
     if(err) throw err
         console.log('Room values added');
         });
@@ -104,14 +104,14 @@ const insertValuesMeeting = `INSERT INTO Meeting (meeting_title, starting_time, 
     ('MEETING_4', '12:00:00', '13:00:00', 4), 
     ('MEETING_5', '13:00:00', '14:00:00', 5)`;
 
-    db.query(insertValuesMeeting, (err) => {
+    connectionDb.query(insertValuesMeeting, (err) => {
     if(err) throw err
         console.log('Meeting values added');
         });
 
 //Show table Invitee
 const selectInveeeTable = `SELECT * FROM Invitee`;
-    db.query(selectInveeeTable, (err, result) => {
+    connectionDb.query(selectInveeeTable, (err, result) => {
         if(err) throw err 
             console.log('Table invitee retrieved');
             console.log(result); // Display the retrieved data
@@ -119,7 +119,7 @@ const selectInveeeTable = `SELECT * FROM Invitee`;
 
 // Show table Room
 const selectRoomQuery = `SELECT * FROM Room`;
-    db.query(selectRoomQuery, (err,result) => {
+    connectionDb.query(selectRoomQuery, (err,result) => {
     if (err) throw err
         console.log('Table room retrieved');
         console.log(result); // Display the retrieved data
@@ -127,13 +127,13 @@ const selectRoomQuery = `SELECT * FROM Room`;
     
 //Show table Meeting
 const selectQuery = `SELECT * FROM Meeting`;
-db.query(selectQuery, (err, result) => {
+connectionDb.query(selectQuery, (err, result) => {
     if (err) throw err;
     console.log('Table meeting retrieved');
     console.log(result); // Display the retrieved data
 });
 
-    db.end((err) => {
+    connectionDb.end((err) => {
     if (err) throw err
         console.log("Database connection closed")
-        })
+        });
