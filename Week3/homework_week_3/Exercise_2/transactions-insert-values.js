@@ -7,8 +7,8 @@ VALUES
 const insertValuesTransaction = (accountFrom, accountTo, amountChange) => {
   const query = `INSERT INTO Account_changes (change_number, account_number, amount, changed_date, remark)
     VALUES
-      (1, ${accountTo}, + ${amountChange}, '2023-06-25', 'Transfer from account 102'),
-      (2, ${accountFrom}, - ${amountChange}, '2023-06-25', 'Transfer to account 101')
+      (1, ${accountTo}, + ${amountChange}, '2023-06-25', 'Transfer from account 101'),
+      (2, ${accountFrom}, - ${amountChange}, '2023-06-25', 'Transfer to account 102')
       `;
   return query;
 };

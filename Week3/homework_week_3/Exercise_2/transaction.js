@@ -20,7 +20,7 @@ const queryExecuted = (data, description) => {
   });
 };
 
-const runningTransaction = async () => {
+const runningTransaction = async (accountFrom, accountTo, amountChange) => {
   // breakpoints transaction
   const beginTransaction = () => {
     return queryExecuted('START TRANSACTION', 'Start transaction...');
@@ -50,31 +50,47 @@ const runningTransaction = async () => {
       createTableAccount_changes,
       'Create Table Account_changes'
     );
-
     // Add value into the table Account
     await queryExecuted(insertValuesTables, 'Add values into the table');
+
+    const tableView = await queryExecuted('SELECT * FROM Account;');
+    console.table(tableView);
 
     // Start transaction
     await beginTransaction();
 
     // Insert new values into table
-    await queryExecuted(insertValuesTransaction(101, 102, 1000), 'Process...');
+    await queryExecuted(
+      insertValuesTransaction(accountFrom, accountTo, amountChange),
+      'Process...'
+    );
+
+    const tableViewTransaction = await queryExecuted(
+      'SELECT * FROM Account_changes;'
+    );
+    console.table(tableViewTransaction);
 
     // Update the first table with a new value
-    await queryExecuted(updateValues(101, 102, 1000), 'Update wallet');
+    await queryExecuted(
+      updateValues(accountFrom, accountTo, amountChange),
+      'Update wallet'
+    );
 
     // Save changes transaction
     await commitTransaction();
 
+    const updateWallet = await queryExecuted('SELECT * FROM Account;');
+    console.table(updateWallet);
+
     console.log('Transaction executed successfully');
   } catch (err) {
-    console.log('Something went wrong:', err);
+    console.log('Something is wrong:', err);
     // comeback transaction if we have an error
     await rollbackTransaction();
   } finally {
     connectionDb.end();
-    console.log('Disconnected from MySQL server');
+    console.log('Disconnected from data server');
   }
 };
 
-runningTransaction();
+runningTransaction(101, 102, 1000);
