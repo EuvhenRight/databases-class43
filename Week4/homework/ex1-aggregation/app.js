@@ -7,19 +7,38 @@ const MONGODB_URL =
   'mongodb+srv://YevhenRight:azsxdc12345@cluster0.j9imenb.mongodb.net/?retryWrites=true&w=majority';
 
 const csvToJsonStarting = async (client) => {
+  const connectionToData = client.db('databaseWeek4').collection('HYF');
   const jsonArray = await csvtojson().fromFile(csvFilePath);
 
-  const collection = client.db('databaseWeek4').collection('HYF');
-
-  const count = await collection.countDocuments();
+  const count = await connectionToData.countDocuments();
 
   if (count === 0) {
-    const dataCsvToJsonResult = await collection.insertMany(jsonArray);
+    const dataCsvToJsonResult = await connectionToData.insertMany(jsonArray);
 
     console.log(
       `${dataCsvToJsonResult.insertedCount} documents inserted successfully.`
     );
   }
+};
+
+const aggregation = async (client, country) => {
+  const groupTest = await client
+    .db('databaseWeek4')
+    .collection('HYF')
+    .aggregate([
+      { $match: { Country: country } },
+      {
+        $group: {
+          _id: '$Year',
+          countPopulation: {
+            $sum: { $add: [{ $toInt: '$M' }, { $toInt: '$F' }] },
+          },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ])
+    .toArray();
+  console.log(groupTest);
 };
 
 async function main() {
@@ -40,6 +59,8 @@ async function main() {
 
     await client.connect();
     console.log('Connecting...');
+
+    await aggregation(client, 'Afghanistan');
   } catch (err) {
     console.error(err);
   } finally {
