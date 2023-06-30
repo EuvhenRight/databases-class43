@@ -21,8 +21,8 @@ const csvToJsonStarting = async (client) => {
   }
 };
 
-const aggregation = async (client, country) => {
-  const groupTest = await client
+const totalPopulationCountry = async (client, country) => {
+  const resultSearchCountry = await client
     .db('databaseWeek4')
     .collection('HYF')
     .aggregate([
@@ -38,7 +38,31 @@ const aggregation = async (client, country) => {
       { $sort: { _id: 1 } },
     ])
     .toArray();
-  console.log(groupTest);
+  console.log(resultSearchCountry);
+};
+
+const totalPopulationContinent = async (client, year, age) => {
+  const resultSearchContinent = await client
+    .db('databaseWeek4')
+    .collection('HYF')
+    .aggregate([
+      {
+        $match: {
+          Country: { $regex: '^[A-Z]+$' },
+          Age: age,
+          Year: year,
+        },
+      },
+      {
+        $addFields: {
+          countPopulation: {
+            $sum: { $add: [{ $toInt: '$M' }, { $toInt: '$F' }] },
+          },
+        },
+      },
+    ])
+    .toArray();
+  console.log(resultSearchContinent);
 };
 
 async function main() {
@@ -60,7 +84,9 @@ async function main() {
     await client.connect();
     console.log('Connecting...');
 
-    await aggregation(client, 'Afghanistan');
+    await totalPopulationCountry(client, 'Afghanistan');
+
+    await totalPopulationContinent(client, '2020', '100+');
   } catch (err) {
     console.error(err);
   } finally {
