@@ -1,10 +1,8 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const csvtojson = require('csvtojson');
+require('dotenv').config();
 const csvFilePath =
   '/Users/macbook/Documents/MySql/MySql_HW_week_4/databases-class43/Week4/homework/ex1-aggregation/population_pyramid_1950-2022.csv';
-
-const MONGODB_URL =
-  'mongodb+srv://YevhenRight:azsxdc12345@cluster0.j9imenb.mongodb.net/?retryWrites=true&w=majority';
 
 const csvToJsonStarting = async (client) => {
   const connectionToData = client.db('databaseWeek4').collection('HYF');
@@ -66,12 +64,13 @@ const totalPopulationContinent = async (client, year, age) => {
 };
 
 async function main() {
-  if (MONGODB_URL == null) {
+  const url = process.env.MONGODB_URL;
+  if (url == null) {
     throw Error(
       `You did not set up the environment variables correctly. Did you create a '.env' file and add a package to create it?`
     );
   }
-  const client = new MongoClient(MONGODB_URL, {
+  const client = new MongoClient(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     serverApi: ServerApiVersion.v1,

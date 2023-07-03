@@ -1,22 +1,24 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const createDatabaseAndCollection = require('./setup.js');
+require('dotenv').config();
 
-const MONGODB_URL =
-  'mongodb+srv://YevhenRight:azsxdc12345@cluster0.j9imenb.mongodb.net/?retryWrites=true&w=majority';
+const url = process.env.MONGODB_URL;
+
+// Connection
+if (url == null) {
+  throw Error(
+    `You did not set up the environment variables correctly. Did you create a '.env' file and add a package to create it?`
+  );
+}
+
+const client = new MongoClient(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: ServerApiVersion.v1,
+});
 
 const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
-  if (MONGODB_URL == null) {
-    throw Error(
-      `You did not set up the environment variables correctly. Did you create a '.env' file and add a package to create it?`
-    );
-  }
-  const client = new MongoClient(MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverApi: ServerApiVersion.v1,
-  });
-  await client.connect();
-
+  // start session
   const session = client.startSession();
 
   const transactionOptions = {
@@ -26,12 +28,14 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
   };
 
   try {
+    //start transaction
     session.startTransaction(transactionOptions);
 
     const transactionCollection = client
       .db('transaction_ex_2')
       .collection('account');
 
+    // find the accounts
     const fromAccount = await transactionCollection.findOne(
       { account_number: fromAccountNumber },
       { session }
@@ -41,6 +45,7 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
       { session }
     );
 
+    // check if the accounts exist
     if (!fromAccount || !toAccount) {
       throw new Error('Invalid account number');
     }
@@ -51,65 +56,62 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
 
     const currentDate = new Date();
 
-    const transaction = {
-      change_number: 3,
-      amount: amount,
-      changed_date: currentDate,
-      remark: `${remark}: ${toAccountNumber}`,
-    };
+    // count the number of documents
+    const currentCount = await transactionCollection.estimatedDocumentCount();
+    const changeNumber = currentCount + 1;
 
-    await transactionCollection.updateOne(
-      { account_number: fromAccountNumber },
-      { $push: { account_changes: { $each: [transaction] } } },
-      { session }
+    // add object to the account_changes array fromAccount
+    const fromAccountUpdates = await transactionCollection.updateOne(
+      { ...fromAccount },
+      {
+        $inc: { balance: -amount },
+        $push: {
+          account_changes: {
+            change_number: changeNumber,
+            amount: amount,
+            changed_date: currentDate,
+            remark: `Money has been transferred to: ${remark} num: ${toAccountNumber}`,
+          },
+        },
+      }
     );
 
-    const updatedFromAccount = {
-      ...fromAccount,
-      balance: fromAccount.balance - amount,
-    };
-
-    const updatedToAccount = {
-      ...toAccount,
-      balance: toAccount.balance + amount,
-    };
-
-    await transactionCollection.updateOne(
-      { account_number: fromAccountNumber },
-      { $set: updatedFromAccount },
-      { session }
+    if (fromAccountUpdates === null) {
+      throw new Error('Could not transfer money from the sender account');
+    }
+    // Add object to the account_changes array toAccount
+    const toAccountUpdates = await transactionCollection.updateOne(
+      { ...toAccount },
+      {
+        $inc: { balance: amount },
+        $push: {
+          account_changes: {
+            change_number: changeNumber,
+            amount: amount,
+            changed_date: currentDate,
+            remark: `Money had been received from: ${remark} num: ${fromAccountNumber}`,
+          },
+        },
+      }
     );
 
-    await transactionCollection.updateOne(
-      { account_number: toAccountNumber },
-      { $set: updatedToAccount },
-      { session }
-    );
+    if (toAccountUpdates === null) {
+      throw new Error('Could not receive money from the sender account');
+    }
 
+    // commit transaction
     await session.commitTransaction();
 
     console.log('Transaction successful');
   } catch (err) {
     console.log('Abort transaction', err);
     await session.abortTransaction();
-  } finally {
     session.endSession();
   }
 };
 
 const main = async () => {
-  if (MONGODB_URL == null) {
-    throw Error(
-      `You did not set up the environment variables correctly. Did you create a '.env' file and add a package to create it?`
-    );
-  }
-
-  const client = new MongoClient(MONGODB_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverApi: ServerApiVersion.v1,
-  });
-
+  // main logic
   try {
     await client.connect();
     console.log('Connected successfully to server');
@@ -119,7 +121,8 @@ const main = async () => {
 
     await createDatabaseAndCollection(client);
 
-    await transfer(101, 102, 1000, 'Transfer test');
+    await transfer(101, 102, 500, '`Hello World');
+    await transfer(102, 101, 999, '`John Dove');
   } catch (err) {
     console.log('Something is wrong', err);
   } finally {
