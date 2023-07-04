@@ -2,7 +2,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const createDatabaseAndCollection = require('./setup.js');
 require('dotenv').config();
 
-const url = process.env.MONGODB_URL;
+const url = process.env.MONGO_URL;
 
 // Connection
 if (url == null) {
@@ -57,8 +57,8 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
     const currentDate = new Date();
 
     // count the number of documents
-    const currentCount = await transactionCollection.estimatedDocumentCount();
-    const changeNumber = currentCount + 1;
+    const changeNumberFrom = fromAccount.account_changes.length + 1;
+    const changeNumberTo = toAccount.account_changes.length + 1;
 
     // add object to the account_changes array fromAccount
     const fromAccountUpdates = await transactionCollection.updateOne(
@@ -67,7 +67,7 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
         $inc: { balance: -amount },
         $push: {
           account_changes: {
-            change_number: changeNumber,
+            change_number: changeNumberFrom,
             amount: amount,
             changed_date: currentDate,
             remark: `Money has been transferred to: ${remark} num: ${toAccountNumber}`,
@@ -86,7 +86,7 @@ const transfer = async (fromAccountNumber, toAccountNumber, amount, remark) => {
         $inc: { balance: amount },
         $push: {
           account_changes: {
-            change_number: changeNumber,
+            change_number: changeNumberTo,
             amount: amount,
             changed_date: currentDate,
             remark: `Money had been received from: ${remark} num: ${fromAccountNumber}`,
