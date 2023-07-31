@@ -1,0 +1,317 @@
+[
+  {
+    "table": "authors",
+    "records": [
+      {
+        "author_name": "Luke Skywalker",
+        "university": "Jedi Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 10,
+        "gender": "Male",
+        "mentor": 1
+      },
+      {
+        "author_name": "Leia Organa",
+        "university": "Alderaan University",
+        "date_of_birth": "1977-05-25",
+        "h_index": 8,
+        "gender": "Female",
+        "mentor": 1
+      },
+      {
+        "author_name": "Han Solo",
+        "university": "Smuggler University",
+        "date_of_birth": "1977-05-25",
+        "h_index": 12,
+        "gender": "Male",
+        "mentor": 1
+      },
+      {
+        "author_name": "Anakin Skywalker",
+        "university": "Jedi Temple",
+        "date_of_birth": "1977-05-25",
+        "h_index": 7,
+        "gender": "Male",
+        "mentor": 1
+      },
+      {
+        "author_name": "Padmé Amidala",
+        "university": "Naboo University",
+        "date_of_birth": "1977-05-25",
+        "h_index": 9,
+        "gender": "Female",
+        "mentor": 3
+      },
+      {
+        "author_name": "Obi-Wan Kenobi",
+        "university": "Jedi Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 11,
+        "gender": "Male",
+        "mentor": 3
+      },
+      {
+        "author_name": "Yoda",
+        "university": "Dagobah University",
+        "date_of_birth": "1977-05-25",
+        "h_index": 6,
+        "gender": "Male",
+        "mentor": 3
+      },
+      {
+        "author_name": "Darth Vader",
+        "university": "Sith Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 13,
+        "gender": "Male",
+        "mentor": 5
+      },
+      {
+        "author_name": "Mace Windu",
+        "university": "Jedi Temple",
+        "date_of_birth": "1977-05-25",
+        "h_index": 8,
+        "gender": "Male",
+        "mentor": 5
+      },
+      {
+        "author_name": "Boba Fett",
+        "university": "Bounty Hunter Institute",
+        "date_of_birth": "1977-05-25",
+        "h_index": 15,
+        "gender": "Male",
+        "mentor": 5
+      },
+      {
+        "author_name": "Lando Calrissian",
+        "university": "Cloud City University",
+        "date_of_birth": "1977-05-25",
+        "h_index": 9,
+        "gender": "Male",
+        "mentor": 4
+      },
+      {
+        "author_name": "Qui-Gon Jinn",
+        "university": "Jedi Temple",
+        "date_of_birth": "1977-05-25",
+        "h_index": 12,
+        "gender": "Male",
+        "mentor": 4
+      },
+      {
+        "author_name": "Rey Skywalker",
+        "university": "Jedi Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 7,
+        "gender": "Female",
+        "mentor": 4
+      },
+      {
+        "author_name": "Finn",
+        "university": "Resistance Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 10,
+        "gender": "Male",
+        "mentor": 2
+      },
+      {
+        "author_name": "Poe Dameron",
+        "university": "Resistance Academy",
+        "date_of_birth": "1977-05-25",
+        "h_index": 7,
+        "gender": "Male",
+        "mentor": 2
+      }
+    ]
+  },
+  {
+    "table": "research_Papers",
+    "records": [
+      {
+        "paper_title": "The Force and Its Influence",
+        "conference": "Jedi Conference",
+        "publish_date": "2022-01-01 09:00:00"
+      },
+      {
+        "paper_title": "Lightsabers: A Comprehensive Study",
+        "conference": "Jedi Academy Symposium",
+        "publish_date": "2022-02-03 14:30:00"
+      },
+      {
+        "paper_title": "The Dark Side: Origins and Effects",
+        "conference": "Sith Summit",
+        "publish_date": "2022-03-12 10:45:00"
+      },
+      {
+        "paper_title": "The Clone Wars: Strategies and Tactics",
+        "conference": "Republic Defense Forum",
+        "publish_date": "2022-04-15 16:20:00"
+      },
+      {
+        "paper_title": "The Rise and Fall of the Galactic Empire",
+        "conference": "Historical Perspectives Conference",
+        "publish_date": "2022-05-21 11:30:00"
+      },
+      {
+        "paper_title": "The Prophecy of the Chosen One",
+        "conference": "Jedi Prophecy Symposium",
+        "publish_date": "2022-06-18 13:45:00"
+      },
+      {
+        "paper_title": "The Millennium Falcon: A Legend in Space Travel",
+        "conference": "Starship Expo",
+        "publish_date": "2022-07-02 08:15:00"
+      },
+      {
+        "paper_title": "Holography: Communication of the Future",
+        "conference": "Galactic Communications Summit",
+        "publish_date": "2022-08-09 12:00:00"
+      },
+      {
+        "paper_title": "The Jedi Code: Principles and Applications",
+        "conference": "Jedi Philosophy Conference",
+        "publish_date": "2022-09-18 16:15:00"
+      },
+      {
+        "paper_title": "The Legacy of Darth Vader",
+        "conference": "Sith Legacy Symposium",
+        "publish_date": "2022-10-24 10:30:00"
+      },
+      {
+        "paper_title": "The Rebellion Against the Empire",
+        "conference": "Resistance History Symposium",
+        "publish_date": "2022-11-30 15:45:00"
+      },
+      {
+        "paper_title": "The Force Awakens: New Possibilities",
+        "conference": "Force Awakening Conference",
+        "publish_date": "2022-12-25 11:00:00"
+      },
+      {
+        "paper_title": "The Mandalorian: A Journey Through the Outer Rim",
+        "conference": "Outer Rim Exploration Symposium",
+        "publish_date": "2023-01-31 14:30:00"
+      },
+      {
+        "paper_title": "The Battle of Endor: Turning Point in the Galactic Civil War",
+        "conference": "Galactic Warfare Symposium",
+        "publish_date": "2023-02-28 09:45:00"
+      },
+      {
+        "paper_title": "The Wisdom of Master Yoda",
+        "conference": "Yoda Wisdom Retreat",
+        "publish_date": "2023-03-31 12:15:00"
+      },
+      {
+        "paper_title": "The Art of Lightsaber Dueling",
+        "conference": "Lightsaber Combat Workshop",
+        "publish_date": "2023-04-30 16:30:00"
+      },
+      {
+        "paper_title": "The Force and Its Connection to Life",
+        "conference": "Force and Life Conference",
+        "publish_date": "2023-05-31 10:00:00"
+      },
+      {
+        "paper_title": "The Secrets of the Sith Holocron",
+        "conference": "Sith Artefacts Exhibition",
+        "publish_date": "2023-06-30 14:45:00"
+      },
+      {
+        "paper_title": "The Resistance: Defending Freedom",
+        "conference": "Resistance Strategy Summit",
+        "publish_date": "2023-07-31 11:30:00"
+      },
+      {
+        "paper_title": "The Star Wars Saga: A Cinematic Masterpiece",
+        "conference": "Film Studies Symposium",
+        "publish_date": "2023-08-31 15:00:00"
+      },
+      {
+        "paper_title": "The Clone Troopers: Engineering and Training",
+        "conference": "Clone Trooper Forum",
+        "publish_date": "2023-09-30 10:45:00"
+      },
+      {
+        "paper_title": "The Jedi Temple: History and Architecture",
+        "conference": "Jedi Temple Study Group",
+        "publish_date": "2023-10-31 13:30:00"
+      },
+      {
+        "paper_title": "The Dark Side: Temptations and Consequences",
+        "conference": "Dark Side Seminar",
+        "publish_date": "2023-11-30 17:15:00"
+      },
+      {
+        "paper_title": "The Rise of the First Order",
+        "conference": "First Order Symposium",
+        "publish_date": "2023-12-31 11:30:00"
+      },
+      {
+        "paper_title": "The Droids of Star Wars",
+        "conference": "Droid Expo",
+        "publish_date": "2024-01-31 15:45:00"
+      },
+      {
+        "paper_title": "The Legacy of Luke Skywalker",
+        "conference": "Jedi Legacy Symposium",
+        "publish_date": "2024-02-29 10:00:00"
+      },
+      {
+        "paper_title": "The Battle of Hoth: Strategies and Outcomes",
+        "conference": "Hoth Battle Analysis",
+        "publish_date": "2024-03-31 12:30:00"
+      },
+      {
+        "paper_title": "The Star Destroyer: The Pride of the Empire",
+        "conference": "Star Destroyer Showcase",
+        "publish_date": "2024-04-30 16:45:00"
+      },
+      {
+        "paper_title": "The Path to Redemption: Anakin Skywalker",
+        "conference": "Redemption Seminar",
+        "publish_date": "2024-05-31 11:15:00"
+      },
+      {
+        "paper_title": "The Force Ghosts: Beyond Mortality",
+        "conference": "Force Ghost Symposium",
+        "publish_date": "2024-06-30 14:30:00"
+      }
+    ]
+  },
+  {
+    "table": "authors_and_research_Papers",
+    "records": [
+      { "author_id": 1, "paper_id": 1 },
+      { "author_id": 1, "paper_id": 2 },
+      { "author_id": 1, "paper_id": 3 },
+      { "author_id": 5, "paper_id": 4 },
+      { "author_id": 5, "paper_id": 5 },
+      { "author_id": 6, "paper_id": 6 },
+      { "author_id": 6, "paper_id": 7 },
+      { "author_id": 3, "paper_id": 8 },
+      { "author_id": 3, "paper_id": 9 },
+      { "author_id": 3, "paper_id": 10 },
+      { "author_id": 10, "paper_id": 11 },
+      { "author_id": 10, "paper_id": 12 },
+      { "author_id": 12, "paper_id": 13 },
+      { "author_id": 12, "paper_id": 14 },
+      { "author_id": 13, "paper_id": 15 },
+      { "author_id": 2, "paper_id": 16 },
+      { "author_id": 2, "paper_id": 17 },
+      { "author_id": 2, "paper_id": 18 },
+      { "author_id": 4, "paper_id": 19 },
+      { "author_id": 4, "paper_id": 20 },
+      { "author_id": 4, "paper_id": 21 },
+      { "author_id": 7, "paper_id": 22 },
+      { "author_id": 9, "paper_id": 23 },
+      { "author_id": 9, "paper_id": 24 },
+      { "author_id": 9, "paper_id": 25 },
+      { "author_id": 11, "paper_id": 26 },
+      { "author_id": 12, "paper_id": 27 },
+      { "author_id": 15, "paper_id": 28 },
+      { "author_id": 15, "paper_id": 29 },
+      { "author_id": 15, "paper_id": 30 }
+    ]
+  }
+]

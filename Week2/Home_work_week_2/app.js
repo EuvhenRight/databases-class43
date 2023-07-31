@@ -1,5 +1,30 @@
 const connectionDb = require('./connect');
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
 
+const readFileAsync = util.promisify(fs.readFile);
+
+async function loadDataFromFile() {
+  const filePath = path.join(__dirname, 'data.json');
+
+  try {
+    const jsonData = await readFileAsync(filePath, 'utf8');
+    const data = JSON.parse(jsonData);
+    return data;
+  } catch (err) {
+    console.error('Error reading data from the file:', err);
+    throw err;
+  }
+}
+
+async function insertDataFromJson() {
+  // Rest of the code remains the same
+}
+
+insertDataFromJson();
+
+// Read research papers data from JSON file
 const mainQueryExecuted = (data, description) => {
   return new Promise((resolve, reject) => {
     connectionDb.query(data, description, (err, results) => {
@@ -166,18 +191,20 @@ runningQueries = async () => {
 
     const queries1 = await mainQueryExecuted(
       `
-  SELECT author_name AS author, mentor
-  FROM authors;`,
+      SELECT a.author_name AS author, a.author_id AS author_id, m.author_name AS mentor, m.author_id AS mentor_id
+      FROM authors a
+      LEFT JOIN authors m ON a.mentor = m.author_id;
+  `,
       '1. Write a query that prints names of all authors and their corresponding mentors.'
     );
     console.table(queries1);
 
     const queries2 = await mainQueryExecuted(
-      `
-  SELECT authors.author_name AS author, COALESCE(research_Papers.paper_title, 'No papers') AS papers
-  FROM authors
-  LEFT JOIN authors_and_research_Papers AS aarP ON authors.author_id	= aarP.author_id
-  LEFT JOIN research_Papers ON research_Papers.paper_id	= aarP.paper_id;`,
+      `SELECT authors.*, research_Papers.paper_title AS papers
+      FROM authors
+      LEFT JOIN authors_and_research_Papers ON authors.author_id = authors_and_research_Papers.author_id
+      LEFT JOIN research_Papers ON research_Papers.paper_id = authors_and_research_Papers.paper_id;      
+`,
       `2. Write a query that prints all columns of authors and their published paper_title. 
   If there is an author without any research_Papers, print the information of that author too.`
     );
@@ -186,10 +213,17 @@ runningQueries = async () => {
 
     const queries3 = await mainQueryExecuted(
       `
-  SELECT research_Papers.paper_title AS papers, authors.author_name AS authors
-  FROM research_Papers
-  INNER JOIN authors_and_research_Papers AS aarP ON research_Papers.paper_id	= aarP.paper_id
-  INNER JOIN authors ON authors.author_id	= aarP.author_id;`,
+      SELECT research_Papers.paper_title AS papers, authors.author_name AS authors, paper_author_counts.num_authors
+    FROM research_Papers
+    INNER JOIN authors_and_research_Papers AS aarP ON research_Papers.paper_id = aarP.paper_id
+    INNER JOIN authors ON authors.author_id = aarP.author_id
+    INNER JOIN (
+    SELECT paper_id, COUNT(DISTINCT author_id) AS num_authors
+    FROM authors_and_research_Papers
+    GROUP BY paper_id
+) AS paper_author_counts ON research_Papers.paper_id = paper_author_counts.paper_id;
+
+  `,
       `3. All research papers and the number of authors that wrote that paper.`
     );
 
